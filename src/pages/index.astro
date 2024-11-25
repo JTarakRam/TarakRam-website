@@ -1,0 +1,28 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import Hero from '../components/Hero.astro';
+import HelpSection from '../components/HelpSection.astro';
+import LatestArticles from '../components/LatestArticles.astro';
+import BookNotes from '../components/BookNotes.astro';
+import PodcastSection from '../components/PodcastSection.astro';
+import AboutSection from '../components/AboutSection.astro';
+import EmailSignup from '../components/EmailSignup.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<MainLayout title="Home">
+  <Navigation slot="header" />
+  <Hero />
+  <HelpSection />
+  <LatestArticles />
+  <BookNotes />
+  <PodcastSection />
+  <AboutSection />
+  <div class="bg-gray-100 py-16">
+    <div class="container mx-auto px-4">
+      <EmailSignup />
+    </div>
+  </div>
+  <Footer slot="footer" />
+</MainLayout>

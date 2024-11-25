@@ -1,0 +1,162 @@
+---
+import EmailSignup from "./EmailSignup.astro";
+
+
+const currentYear = new Date().getFullYear();
+
+
+const footerLinks = {
+  LINKS: [
+    { text: 'Newsletter', href: '/newsletter' },
+    { text: 'About', href: '/about' },
+    { text: 'Blogs', href: '/blogs' },
+    { text: 'Podcast', href: '/podcast' } ]
+
+};
+---
+<footer class="footer">
+  <div class="container footer-content">
+    <div class="footer-grid">
+      {Object.entries(footerLinks).map(([category, links]) => (
+        <div class="footer-column">
+          <h3>{category}</h3>
+          <ul class="link-list">
+            {links.map(link => (
+              <li>
+                <a href={link.href}>{link.text}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+      <div class="footer-column connect-column">
+        <h3>CONNECT WITH ME</h3>
+        <a href="mailto:contact@tarakram.com" class="connect-button">
+          Contact Me
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-legal">
+        &copy; Tarak Ram {currentYear}. All Rights Reserved
+        <a href="/privacy" class="legal-link">Privacy Policy</a>
+        <span>|</span>
+        <a href="/cookies" class="legal-link">Cookie Policy</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: black;
+    color: white;
+    padding: 4rem 0 2rem;
+  }
+
+  .footer-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+  }
+
+  .footer-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  .footer-column h3 {
+    color: #9CA3AF;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
+  .link-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .link-list li {
+    flex: 1 1 45%; /* Two links per row */
+  }
+
+  .footer-column a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.875rem;
+    line-height: 2;
+  }
+
+  .footer-column a:hover {
+    color: var(--primary-color);
+  }
+
+  .connect-column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .connect-button {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: background-color 0.2s;
+  }
+
+  .connect-button:hover {
+    background-color: var(--primary-color-dark);
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: black;
+    transition: background-color 0.2s;
+  }
+
+  .footer-bottom {
+    padding-top: 2rem;
+    border-top: 1px solid #374151;
+    text-align: center;
+  }
+
+  .footer-legal {
+    font-size: 0.875rem;
+    color: #9CA3AF;
+    display: inline-block;
+  }
+
+  .footer-legal .legal-link {
+    margin-left: 0.5rem;
+    color: #9CA3AF;
+    text-decoration: none;
+  }
+
+  .footer-legal .legal-link:hover {
+    color: var(--primary-color);
+  }
+
+  @media (min-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 2fr 1fr; /* Wider space for links and "CONNECT WITH ME" */
+    }
+  }
+</style>

@@ -1,0 +1,134 @@
+<!-- ---
+import { getCollection } from 'astro:content';
+
+const books = await getCollection('books');
+books.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+const recentBooks = books.slice(0, 2);
+---
+
+<section class="book-notes">
+  <div class="container">
+    <h2>Read my Book Notes</h2>
+    <div class="books-grid">
+      {recentBooks.map(book => (
+        <a href={`/books/${book.slug}`} class="book-card">
+          <div class="book-content">
+            <img 
+              src={book.data.coverImage} 
+              alt={`Cover of ${book.data.title}`} 
+              class="book-cover"
+              width="200"
+              height="300"
+            />
+            <div class="book-info">
+              <h3>{book.data.title}</h3>
+              <p class="subtitle">Summary With Notes and Highlights</p>
+              <p class="description">{book.data.description}</p>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .book-notes {
+    padding: 4rem 0;
+    background: #F9FAFB;
+  }
+
+  h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+
+  h2::after {
+    content: '';
+    position: absolute;
+    bottom: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: var(--primary-color);
+  }
+
+  .books-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .book-card {
+    background: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  .book-content {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  .book-cover {
+    width: 150px;
+    height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  .book-info {
+    flex: 1;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+  }
+
+  .subtitle {
+    color: #6B7280;
+    margin-bottom: 1rem;
+  }
+
+  .description {
+    line-height: 1.6;
+    color: #4B5563;
+  }
+
+  @media (max-width: 640px) {
+    .book-content {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .book-cover {
+      width: 200px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .books-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+ -->

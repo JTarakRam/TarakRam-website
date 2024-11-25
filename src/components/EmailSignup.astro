@@ -1,0 +1,152 @@
+---
+// src/components/EmailSignup.astro
+---
+
+<div class="email-signup">
+  <h2 class="title">
+    <span class="emoji">✉️</span> Subscribe to Monday Mornings
+  </h2>
+
+  <blockquote class="testimonial">
+    "Damn.. that's pretty good... The amount of information and knowledge you're providing here... it's just amazing."
+  </blockquote>
+
+  <p class="description">
+    Join now (<span class="emoji">😇</span>) 
+    Every week I share my learnings from my personal life, from the books that I read, 
+    people I met, directly to your inbox.
+  </p>
+
+  <form class="signup-form">
+    <div class="form-group">
+      <input 
+        type="text" 
+        placeholder="First Name*" 
+        required 
+        class="input"
+      />
+    </div>
+    
+    <div class="form-group">
+      <input 
+        type="email" 
+        placeholder="Email*" 
+        required 
+        class="input"
+      />
+    </div>
+
+    <div class="checkbox-group">
+      <label class="checkbox-label">
+        <input 
+          type="checkbox" 
+          name="newsletter" 
+          class="checkbox-input"
+        />
+        <span class="checkbox-text">
+          I'd like to receive weekly insights and updates in my inbox.
+        </span>
+      </label>
+    </div>
+
+    <button type="submit" class="subscribe-button">
+      SUBSCRIBE
+    </button>
+  </form>
+</div>
+
+<style>
+  .email-signup {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .emoji {
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  }
+
+  .testimonial {
+    font-style: italic;
+    color: #4B5563;
+    margin-bottom: 1.5rem;
+    font-size: 1.125rem;
+  }
+
+  .description {
+    color: #4B5563;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    font-size: 1.125rem;
+  }
+
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .form-group {
+    width: 100%;
+  }
+
+  .input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #E5E7EB;
+    border-radius: 0.375rem;
+    font-size: 1rem;
+    transition: border-color 0.15s ease-in-out;
+  }
+
+  .input:focus {
+    outline: none;
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  .input::placeholder {
+    color: #9CA3AF;
+  }
+
+  .subscribe-button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #3B82F6;
+    color: white;
+    border: none;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+  }
+
+  .subscribe-button:hover {
+    background-color: #2563EB;
+  }
+
+  @media (max-width: 640px) {
+    .email-signup {
+      padding: 1rem;
+    }
+
+    .title {
+      font-size: 1.75rem;
+    }
+
+    .description {
+      font-size: 1rem;
+    }
+  }
+</style>

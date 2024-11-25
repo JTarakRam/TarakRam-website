@@ -1,0 +1,155 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import Navigation from '../../components/Navigation.astro';
+import EmailSignup from '../../components/EmailSignup.astro';
+import Footer from '../../components/Footer.astro';
+import { Image } from 'astro:assets';
+
+export async function getStaticPaths() {
+  const books = await getCollection('books');
+  return books.map(book => ({
+    params: { slug: book.slug },
+    props: { book },
+  }));
+}
+
+const { book } = Astro.props;
+const { Content } = await book.render();
+
+const formatDate = (date: Date) => {
+  return new Date(date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+---
+
+<MainLayout title={`${book.data.title} - Book Summary & Notes`}>
+  <Navigation slot="header" />
+  
+  <main class="min-h-screen bg-gray-50">
+    <article class="container mx-auto px-4 py-12">
+      {/* Hero Section */}
+      <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden mb-12">
+        <div class="md:flex">
+          <div class="md:flex-shrink-0 p-6">
+            <Image
+              src={book.data.coverImage}
+              alt={book.data.title}
+              width={300}
+              height={450}
+              class="w-full h-auto md:w-48 object-cover rounded-lg"
+            />
+          </div>
+          <div class="p-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">{book.data.title}</h1>
+            <p class="text-xl text-gray-600 mb-4">{book.data.description}</p>
+            <p class="text-sm text-gray-500">By {book.data.author}</p>
+            <p class="text-sm text-gray-500 mt-2">Published on {formatDate(book.data.publishDate)}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div class="max-w-4xl mx-auto">
+        {/* The Book in 3 Sentences */}
+        <section class="bg-white rounded-xl shadow-md p-8 mb-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+            <span class="mr-2">🚀</span> The Book in 3 Sentences
+          </h2>
+          <ol class="list-decimal list-inside space-y-2 text-gray-700">
+            <li>{book.data.sentence1}</li>
+            <li>{book.data.sentence2}</li>
+            <li>{book.data.sentence3}</li>
+          </ol>
+        </section>
+
+        {/* Impressions */}
+        <section class="bg-white rounded-xl shadow-md p-8 mb-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+            <span class="mr-2">🎨</span> Impressions
+          </h2>
+          <p class="text-gray-700">{book.data.impressions}</p>
+        </section>
+
+        {/* Who Should Read It */}
+        <section class="bg-white rounded-xl shadow-md p-8 mb-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+            <span class="mr-2">👤</span> Who Should Read It?
+          </h2>
+          <p class="text-gray-700">{book.data.whoShouldRead}</p>
+        </section>
+
+        {/* How the Book Changed Me */}
+        <section class="bg-white rounded-xl shadow-md p-8 mb-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+            <span class="mr-2">🌱</span> How the Book Changed Me
+          </h2>
+          <ul class="list-disc list-inside space-y-2 text-gray-700">
+            {book.data.howBookChangedMe.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </section>
+
+        {/* My Top 3 Quotes */}
+        <section class="bg-white rounded-xl shadow-md p-8 mb-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+            <span class="mr-2">✍️</span> My Top 3 Quotes
+          </h2>
+          <ul class="space-y-4">
+            {book.data.topQuotes.map((quote) => (
+              <li>
+                <blockquote class="border-l-4 border-blue-500 pl-4 italic text-gray-700">
+                  "{quote}"
+                </blockquote>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* Summary + Notes */}
+        <section class="bg-white rounded-xl shadow-md p-8 mb-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+            <span class="mr-2">📝</span> Summary + Notes
+          </h2>
+          <div class="prose prose-lg max-w-none text-gray-700">
+            <Content />
+          </div>
+        </section>
+      </div>
+
+    
+    </article>
+
+    {/* Email Signup */}
+    <section class="bg-gray-100 py-16">
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto">
+          <EmailSignup />
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer slot="footer" />
+</MainLayout>
+
+<style>
+  .container {
+    max-width: 1200px;
+  }
+
+  .prose img {
+    border-radius: 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+</style>

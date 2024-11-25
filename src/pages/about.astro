@@ -1,0 +1,139 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import EmailSignup from '../components/EmailSignup.astro';
+---
+
+<MainLayout title="About Tarak Ram">
+  <Navigation slot="header" />
+  
+  <main class="about-page">
+    <section class="hero bg-white py-16 md:py-24">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center gap-8">
+          <div class="md:w-1/2">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">About Me</h1>
+            <p class="text-xl text-gray-600 mb-6">
+              Hey, I’m Tarak Ram – an Entrepreneur, Podcast host.
+            </p>
+            <div class="w-20 h-1 bg-blue-500"></div>
+          </div>
+          <div class="md:w-1/2">
+            <img 
+              src="/images/tarak.jpg" 
+              alt="Tarak Ram" 
+              class="rounded-lg shadow-lg"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="who-am-i py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-8">Who Am I</h2>
+        <div class="flex flex-col md:flex-row gap-8">
+          <div class="md:w-2/3">
+            <p class="text-lg mb-4">
+              I'm Human
+            </p>
+            <p class="text-lg mb-4">
+              Just for Fun.
+            </p>
+          </div>
+          <div class="md:w-1/3">
+            <img 
+              src="/images/tarak.jpg" 
+              alt="Tarak Ram casual" 
+              class="rounded-lg shadow-lg"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="quick-facts py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-8">Quick Facts About Me</h2>
+        <ul class="list-disc list-inside space-y-4 text-lg">
+          <li>I grew up in a small village called Jonnalagadda.</li>
+          <li>Started my entrepreneurial journey with just a laptop and an internet connection.</li>
+          <li>I run two startups</li>
+          <li>I don’t have a tech degree, but I love solving problems through technology.</li>
+          <li>I talk to 2–3 founders globally every week, learning and sharing insights.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="journey py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-8">My Journey From Student to Creator</h2>
+        <div class="space-y-12">
+          <div class="flex">
+            <div class="flex-shrink-0 w-24 text-right pr-4">
+              <span class="font-bold text-blue-500">2002</span>
+            </div>
+            <div class="border-l-2 border-blue-500 pl-4 pb-8">
+              <p>  Born in India, started coding at 12, and worked as a freelance web designer.</p>
+            </div>
+          </div>
+          <div class="flex">
+            <div class="flex-shrink-0 w-24 text-right pr-4">
+              <span class="font-bold text-blue-500">2012 - 2018</span>
+            </div>
+            <div class="border-l-2 border-blue-500 pl-4 pb-8">
+              <p>Studied at Cambridge University, started YouTube channel, graduated with MBBS.</p>
+            </div>
+          </div>
+          <div class="flex">
+            <div class="flex-shrink-0 w-24 text-right pr-4">
+              <span class="font-bold text-blue-500">2018 - 2020</span>
+            </div>
+            <div class="border-l-2 border-blue-500 pl-4 pb-8">
+              <p>Worked as a Junior Doctor, hit 1 million YouTube subscribers, started online courses.</p>
+            </div>
+          </div>
+          <div class="flex">
+            <div class="flex-shrink-0 w-24 text-right pr-4">
+              <span class="font-bold text-blue-500">2020 - 2023</span>
+            </div>
+            <div class="border-l-2 border-blue-500 pl-4">
+              <p>Launched Part Time YouTuber Academy, moved to London, started podcast, reached 4 million subscribers.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- <section class="in-the-media py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-8">In the media</h2>
+        <p class="text-lg mb-8">I've been featured in a few places... here are my favourites</p>
+        <div class="flex flex-wrap justify-center items-center gap-8">
+          <img src="/images/media-logo-1.png" alt="Media Logo 1" class="h-12" />
+          <img src="/images/media-logo-2.png" alt="Media Logo 2" class="h-12" />
+          <img src="/images/media-logo-3.png" alt="Media Logo 3" class="h-12" />
+          <img src="/images/media-logo-4.png" alt="Media Logo 4" class="h-12" />
+        </div>
+      </div>
+    </section> -->
+
+    <section class="newsletter-signup py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <EmailSignup />
+      </div>
+    </section>
+  </main>
+
+  <Footer slot="footer" />
+</MainLayout>
+
+<style>
+  .about-page {
+    @apply text-gray-800;
+  }
+  .container {
+    @apply max-w-4xl;
+  }
+</style>

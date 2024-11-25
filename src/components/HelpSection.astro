@@ -1,0 +1,99 @@
+<!-- ---
+const helpCards = [
+  {
+    icon: '🚀',
+    title: 'Be More Productive',
+    description: 'How to execute efficiently, make time for what matters and have fun along the way.'
+  },
+  {
+    icon: '🎬',
+    title: 'Grow a Youtube Channel',
+    description: 'Learn how to start a YouTube channel based on my years of experience.'
+  },
+  {
+    icon: '💰',
+    title: 'Build an Online Business',
+    description: 'How I built my business and the learnings I\'ve made over the years so you can do the same.'
+  },
+  {
+    icon: '📚',
+    title: 'Boost Your Grades',
+    description: 'How to study effectively for exams, with the best evidence-based techniques.'
+  }
+];
+---
+
+<section class="help-section">
+  <div class="container">
+    <h2>How can I help you?</h2>
+    <div class="cards-grid">
+      {helpCards.map(card => (
+        <div class="card">
+          <span class="icon">{card.icon}</span>
+          <h3>{card.title}</h3>
+          <p>{card.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .help-section {
+    padding: 4rem 0;
+    background: #F9FAFB;
+  }
+
+  h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+
+  h2::after {
+    content: '';
+    position: absolute;
+    bottom: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: var(--primary-color);
+  }
+
+  .cards-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+
+  .card {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+  }
+
+  .icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: #6B7280;
+    line-height: 1.6;
+  }
+</style> -->

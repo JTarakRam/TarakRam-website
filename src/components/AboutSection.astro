@@ -1,0 +1,202 @@
+---
+const socialLinks = [
+  { platform: 'linkedin', url: 'https://www.linkedin.com/in/tarakram18/' },
+  { platform: 'twitter', url: 'https://x.com/Tarak__Ram' },
+  { platform: 'youtube', url: 'https://www.youtube.com/@tarakram.18' },
+  { platform: 'instagram', url: 'https://www.instagram.com/tarak.ram_18/' }
+];
+---
+
+<section class="about-section">
+  <div class="container">
+    <h2>About Tarak Ram</h2>
+    <div class="about-content">
+      <div class="about-image">
+        <img 
+          src="/images/tarak.jpg" 
+          alt="Tarak Ram speaking at an event"
+          width="600"
+          height="800"
+        />
+        <div class="social-links">
+          {socialLinks.map(link => (
+            <a 
+              href={link.url} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="social-link"
+              aria-label={`Follow on ${link.platform}`}
+            >
+              {link.platform === 'linkedin' && (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                  <rect x="2" y="9" width="4" height="12"></rect>
+                  <circle cx="4" cy="4" r="2"></circle>
+                </svg>
+              )}
+              {link.platform === 'twitter' && (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                </svg>
+              )}
+              {link.platform === 'youtube' && (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+                  <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                </svg>
+              )}
+              {link.platform === 'facebook' && (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                </svg>
+              )}
+              {link.platform === 'instagram' && (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              )}
+            </a>
+          ))}
+        </div>
+      </div>
+      <div class="about-text">
+        <p>
+          I'm Tarak Ram, an Entrepreneur and Podcast host, and my story begins in a small village called Jonnalagadda. It's been a journey full of surprises, and I can't wait to share it with you.
+        </p>
+
+        <p>
+          I never thought someone like me, from a village, would be doing what I'm doing today. All it took was a laptop and an internet connection to get started. Now, I run not one but two startups, and I'm working on a third one, too. And get this – two of them are tech companies, even though I don't have a tech degree!
+        </p>
+
+        <p>
+          I used to be really shy and kept to myself. But now, I love talking to people from all over the world. I never imagined I'd be chatting with international folks every week. It just goes to show that if you take a chance and step out of your comfort zone, amazing things can happen. All it took was one email to a founder, and I received so much encouragement and support.
+        </p>
+
+        <p>
+          My life has been full of "I never thought I'd..." moments. I never thought I'd work in tech, manage teams, or even read so many books. But here I am, doing all those things and more. I've learned that one decision, one connection, or even one word can change everything. It's both exciting and a little scary, but that's what makes it fun!
+        </p>
+        <p>
+          I'm always up for trying new things, even if it means making mistakes. It's all part of the journey. I believe in failing forward, learning from my mistakes, and keeping a positive mindset. So, here I am, with my laptop, the internet, and big dreams. Let's keep in touch, and who knows what amazing things we can create together!
+        </p>
+
+        <p class="learn-more">
+          If you want to learn even more about me, 
+          there's a whole page <a href="/about">here</a> 😊
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-section {
+    padding: 4rem 0;
+    background: #F9FAFB;
+  }
+
+  h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+
+  h2::after {
+    content: '';
+    position: absolute;
+    bottom: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: var(--primary-color);
+  }
+
+  .about-content {
+    display: grid;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .about-image {
+    position: relative;
+  }
+
+  .about-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 1rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    transition: transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: black;
+  }
+
+  .social-link:hover {
+    transform: translateY(-2px);
+  }
+
+  .social-link svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .about-text {
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+
+  .about-text p {
+    margin-bottom: 1.5rem;
+  }
+
+  .about-text a {
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+
+  .about-text a:hover {
+    text-decoration: underline;
+  }
+
+  .intro {
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+
+  .learn-more {
+    font-style: italic;
+  }
+
+  @media (min-width: 768px) {
+    .about-content {
+      grid-template-columns: 1fr 2fr;
+      gap: 4rem;
+    }
+
+    .social-links {
+      justify-content: flex-start;
+    }
+  }
+</style>
