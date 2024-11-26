@@ -1,5 +1,4 @@
 ---
-// src/pages/newsletter.astro
 import { getCollection } from 'astro:content';
 import MainLayout from '../layouts/MainLayout.astro';
 import Navigation from '../components/Navigation.astro';
@@ -17,7 +16,11 @@ function formatDate(date: Date) {
   });
 }
 
-const years = ['ALL EMAILS', '2024'];
+const uniqueYears = [...new Set(newsletters.map(n => 
+  new Date(n.data.publishDate).getFullYear().toString()
+))];
+uniqueYears.sort((a, b) => Number(b) - Number(a)); 
+const years = ['ALL EMAILS', ...uniqueYears];
 ---
 
 <MainLayout title="Newsletter - Free Weekly Productivity Insights">
@@ -60,10 +63,16 @@ const years = ['ALL EMAILS', '2024'];
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
           <!-- Year Filter -->
-          <div class="flex flex-wrap gap-3 justify-center mb-16">
+          <div class="flex flex-wrap gap-4 justify-center mb-16" id="year-filters">
             {years.map(year => (
               <button
-                class="px-6 py-2 rounded-full border border-gray-200 hover:border-blue-500 hover:text-blue-500 transition-colors bg-white"
+                type="button"
+                class:list={[
+                  'px-6 py-2 rounded-full border-2 transition-all duration-200 font-medium',
+                  'hover:border-blue-500 hover:text-blue-500',
+                  year === 'ALL EMAILS' ? 'border-blue-500 text-blue-500 bg-white' : 'border-gray-300 text-gray-700 bg-white'
+                ]}
+                data-year={year}
               >
                 {year}
               </button>
@@ -77,21 +86,26 @@ const years = ['ALL EMAILS', '2024'];
             </h2>
             
             <div class="space-y-6 bg-white rounded-xl p-6 md:p-8 shadow-sm">
-              {newsletters.map(newsletter => (
-                <a
-                  href={`/newsletter/${newsletter.slug}`}
-                  class="block group"
-                >
-                  <article class="grid md:grid-cols-[200px,1fr] gap-4 py-4 border-b border-gray-100 last:border-0">
-                    <div class="text-blue-500 font-medium">
-                      {formatDate(newsletter.data.publishDate)}
-                    </div>
-                    <h3 class="text-lg text-gray-900 group-hover:text-blue-500 transition-colors">
-                      {newsletter.data.title}
-                    </h3>
-                  </article>
-                </a>
-              ))}
+              {newsletters.map(newsletter => {
+                const year = new Date(newsletter.data.publishDate).getFullYear().toString();
+                return (
+                  <div class="newsletter-item" data-year={year}>
+                    <a
+                      href={`/newsletter/${newsletter.slug}`}
+                      class="block group"
+                    >
+                      <article class="grid md:grid-cols-[200px,1fr] gap-4 py-4 border-b border-gray-100 last:border-0">
+                        <div class="text-blue-500 font-medium">
+                          {formatDate(newsletter.data.publishDate)}
+                        </div>
+                        <h3 class="text-lg text-gray-900 group-hover:text-blue-500 transition-colors">
+                          {newsletter.data.title}
+                        </h3>
+                      </article>
+                    </a>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -122,4 +136,63 @@ const years = ['ALL EMAILS', '2024'];
       padding-right: 1rem;
     }
   }
+
+  .newsletter-item {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .newsletter-item.hidden {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+  }
 </style>
+
+<script>
+  function initializeNewsletterFilters() {
+    const filterButtons = document.querySelectorAll('[data-year]');
+    const newsletterItems = document.querySelectorAll('.newsletter-item');
+    let activeYear = 'ALL EMAILS';
+
+    function updateNewsletter(year: string) {
+      newsletterItems.forEach(item => {
+        const itemYear = item.getAttribute('data-year');
+        if (year === 'ALL EMAILS' || itemYear === year) {
+          item.classList.remove('hidden');
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+    }
+
+    function updateButtons(selectedYear: string) {
+      filterButtons.forEach(btn => {
+        const isSelected = btn.getAttribute('data-year') === selectedYear;
+        btn.classList.toggle('border-blue-500', isSelected);
+        btn.classList.toggle('text-blue-500', isSelected);
+        btn.classList.toggle('border-gray-300', !isSelected);
+        btn.classList.toggle('text-gray-700', !isSelected);
+      });
+    }
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const year = button.getAttribute('data-year') || 'ALL EMAILS';
+        if (activeYear !== year) {
+          activeYear = year;
+          updateNewsletter(year);
+          updateButtons(year);
+        }
+      });
+    });
+
+    // Initialize with ALL EMAILS selected
+    updateNewsletter(activeYear);
+    updateButtons(activeYear);
+  }
+
+  // Initialize when the DOM is ready
+  document.addEventListener('DOMContentLoaded', initializeNewsletterFilters);
+</script>
