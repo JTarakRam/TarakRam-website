@@ -3,35 +3,13 @@ import MainLayout from '../layouts/MainLayout.astro';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import EmailSignup from '../components/EmailSignup.astro';
-import { fetchYouTubeVideos } from '../utils/youtube';
-
-let videos = [];
-let error = null;
-let isLoading = true;
-
-try {
-  videos = await fetchYouTubeVideos();
-  console.log(`Successfully fetched ${videos.length} videos`);
-  isLoading = false;
-} catch (e) {
-  console.error('Error in podcast page:', e);
-  error = e.message;
-  isLoading = false;
-}
+import { videos } from '../data/videos';
 
 const latestVideo = videos[0];
 
 function formatDuration(duration: string) {
-  const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
-  const hours = (parseInt(match?.[1] ?? "0")) || 0;
-  const minutes = (parseInt(match?.[2] ?? "0")) || 0;
-  const seconds = (parseInt(match?.[3] ?? "0")) || 0;
-  
-  if (hours > 0) {
-    return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-  } else {
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-  }
+ 
+  return "00:00";
 }
 ---
 
@@ -66,7 +44,7 @@ function formatDuration(duration: string) {
             <iframe
               width="100%"
               height="100%"
-              src={`https://www.youtube.com/embed/${latestVideo.videoId}`}
+              src={`https://www.youtube.com/embed/${latestVideo.id}`}
               title={latestVideo.title}
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -82,32 +60,10 @@ function formatDuration(duration: string) {
       <div class="container mx-auto max-w-6xl">
         <h2 class="text-3xl font-bold text-gray-900 mb-8">Latest Episodes</h2>
         
-        {error && (
-          <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-8">
-            {error}
-          </div>
-        )}
-
-        {isLoading && (
-          <div class="text-center py-12">
-            <div class="animate-pulse space-y-4">
-              <div class="h-48 bg-gray-200 rounded-xl"></div>
-              <div class="h-4 bg-gray-200 rounded w-3/4 mx-auto"></div>
-              <div class="h-4 bg-gray-200 rounded w-1/2 mx-auto"></div>
-            </div>
-          </div>
-        )}
-
-        {!isLoading && videos.length === 0 && (
-          <div class="text-center py-12">
-            <p class="text-xl text-gray-600">No videos found.</p>
-          </div>
-        )}
-
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {videos.map((video) => (
             <a
-              href={`https://www.youtube.com/watch?v=${video.videoId}`}
+              href={`https://www.youtube.com/watch?v=${video.id}`}
               target="_blank"
               rel="noopener noreferrer"
               class="group"
@@ -115,14 +71,11 @@ function formatDuration(duration: string) {
               <article class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow">
                 <div class="aspect-video relative">
                   <img
-                    src={video.thumbnail}
+                    src={video.thumbnailUrl}
                     alt={video.title}
                     class="w-full h-full object-cover"
                   />
                   <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-colors" />
-                  <div class="absolute bottom-2 right-2 bg-black bg-opacity-75 text-white px-2 py-1 rounded text-sm">
-                    {formatDuration(video.duration)}
-                  </div>
                 </div>
                 <div class="p-6">
                   <h3 class="text-xl font-semibold text-gray-900 mb-2 line-clamp-2">
@@ -143,7 +96,6 @@ function formatDuration(duration: string) {
       </div>
     </section>
 
-  
     <section class="bg-white py-16">
       <div class="container mx-auto px-4">
         <div class="max-w-3xl mx-auto">
@@ -155,3 +107,4 @@ function formatDuration(duration: string) {
 
   <Footer slot="footer" />
 </MainLayout>
+

@@ -1,54 +1,38 @@
 ---
-import { fetchYouTubeVideos } from '../utils/youtube';
+import { videos } from '../data/videos';
 
-let podcastEpisodes = [];
-let error = null;
+const recentVideos = videos.slice(0, 4);
 
-try {
-  const videos = await fetchYouTubeVideos();
-  podcastEpisodes = videos.slice(0, 4).map(video => ({
-    title: video.title,
-
-    date: new Date(video.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-    thumbnail: video.thumbnail,
-    overlayText: video.title.split(' – ')[1] || '',
-    link: `https://www.youtube.com/watch?v=${video.videoId}`
-  }));
-} catch (e) {
-  console.error('Error fetching podcast episodes:', e);
-  error = e.message;
-}
-
-function formatOverlayText(text) {
-  return text.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim();
+function formatDate(dateString: string) {
+  return new Date(dateString).toLocaleDateString('en-US', { 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  });
 }
 ---
 
 <section class="podcast-section">
   <div class="container">
     <h2>Deep Dive Podcast</h2>
-    {error && (
-      <div class="error-message">
-        {error}
-      </div>
-    )}
     <div class="episodes-grid">
-      {podcastEpisodes.map(episode => (
-        <a href={episode.link} class="episode-card" target="_blank" rel="noopener noreferrer">
+      {recentVideos.map((video, index) => (
+        <a href={`https://www.youtube.com/watch?v=${video.id}`} class="episode-card" target="_blank" rel="noopener noreferrer">
           <div class="thumbnail-wrapper">
             <img 
-              src={episode.thumbnail} 
-              alt={episode.title}
+              src={video.thumbnailUrl}
+              alt={video.title}
               class="episode-thumbnail"
               width="600"
               height="338"
               loading="lazy"
             />
-            <div class="overlay-text">{formatOverlayText(episode.overlayText)}</div>
+            <div class="episode-number">Episode - {String(20 - index).padStart(2, '0')}</div>
+            
           </div>
           <div class="episode-info">
-            <h3>{episode.title}</h3>
-            <time datetime={episode.date}>{episode.date}</time>
+            <h3>{video.title}</h3>
+            <time datetime={video.publishedAt}>{formatDate(video.publishedAt)}</time>
           </div>
         </a>
       ))}
@@ -72,6 +56,7 @@ function formatOverlayText(text) {
     text-align: center;
     font-size: 2.5rem;
     margin-bottom: 3rem;
+    color: #1a1a1a;
     position: relative;
   }
 
@@ -86,21 +71,11 @@ function formatOverlayText(text) {
     background: var(--primary-color);
   }
 
-  .error-message {
-    background-color: #fee2e2;
-    border: 1px solid #fecaca;
-    color: #dc2626;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin: 2rem 0;
-    text-align: center;
-  }
-
   .episodes-grid {
     display: grid;
     gap: 2rem;
     grid-template-columns: repeat(2, 1fr);
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
   }
 
@@ -108,25 +83,27 @@ function formatOverlayText(text) {
     text-decoration: none;
     color: inherit;
     background: white;
-    border-radius: 0.75rem;
+    border-radius: 1rem;
     overflow: hidden;
     transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-                0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    max-width: 500px; /* Slightly reduced size */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05),
+                0 1px 2px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 480px;
     margin: 0 auto;
   }
 
   .episode-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-                0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05),
+                0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .thumbnail-wrapper {
     position: relative;
     aspect-ratio: 16/9;
     overflow: hidden;
+    background: #000;
   }
 
   .episode-thumbnail {
@@ -140,20 +117,33 @@ function formatOverlayText(text) {
     transform: scale(1.05);
   }
 
-  .overlay-text {
+  .episode-number {
     position: absolute;
-    bottom: 1rem;
-    left: 1rem;
-    background: rgba(0, 0, 0, 0.7);
+    bottom: 0.75rem;
+    right: 0.75rem;
+    background: rgba(0, 0, 0, 0.75);
     color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    font-weight: bold;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .duration {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 0.75rem;
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
   }
 
   .episode-info {
     padding: 1.25rem;
+    background: white;
   }
 
   h3 {
@@ -170,37 +160,46 @@ function formatOverlayText(text) {
   }
 
   /* Responsive Design */
+  @media (max-width: 1024px) {
+    .container {
+      padding: 0 1.25rem;
+    }
+    
+    .episodes-grid {
+      gap: 1.5rem;
+    }
+
+    .episode-card {
+      max-width: 440px;
+    }
+  }
+
   @media (max-width: 768px) {
     .episodes-grid {
       grid-template-columns: 1fr;
       gap: 1.5rem;
     }
 
-    .episode-card {
-      max-width: 100%;
+    .podcast-section {
+      padding: 3rem 0;
     }
 
     h2 {
       font-size: 2rem;
-      margin-bottom: 2rem;
-    }
-
-    .overlay-text {
-      font-size: 0.875rem;
+      margin-bottom: 2.5rem;
     }
 
     .episode-info {
       padding: 1rem;
     }
-  }
 
-  @media (min-width: 769px) and (max-width: 1024px) {
-    .episode-card {
-      max-width: 450px;
+    h3 {
+      font-size: 1rem;
     }
 
-    .container {
-      padding: 0 2rem;
+    .episode-card {
+      max-width: 400px;
     }
   }
 </style>
+
