@@ -12,7 +12,6 @@ function formatDuration(duration: string) {
   return "00:00";
 }
 ---
-
 <MainLayout title="Deep Dive Podcast - Tarak Ram">
   <Navigation slot="header" />
 
@@ -21,19 +20,17 @@ function formatDuration(duration: string) {
       <div class="container mx-auto max-w-6xl grid md:grid-cols-2 gap-8 items-center">
         <div>
           <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Deep Dive With Tarak Ram
+            The Tarak's Show
           </h1>
           <p class="text-xl text-gray-600 mb-8">
-            The podcast that delves into the minds of entrepreneurs, creators and other inspiring people
-            to uncover the philosophies, strategies, and tools that help us live happier, healthier, and more
-            productive lives.
+            Welcome to the podcast where we dive deep into the stories of entrepreneurs, and other extraordinary individuals. Together, we explore the philosophies, strategies, and insights that empower us to live with purpose, enhance our well-being, and unlock greater productivity and fulfillment in life.
           </p>
           <div class="flex flex-wrap gap-4">
             <a
               href="https://www.youtube.com/@tarakram.18"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center px-6 py-3 bg-red-600 text-white rounded-full hover:bg-opacity-90 transition-colors"
+              class="inline-flex items-center px-6 py-3 bg-red-600 text-white rounded hover:bg-opacity-90 transition-colors"
             >
               YouTube
             </a>
@@ -69,11 +66,11 @@ function formatDuration(duration: string) {
               class="group"
             >
               <article class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow">
-                <div class="aspect-video relative">
+                <div class="aspect-video relative group-hover:scale-105 transition-transform duration-300">
                   <img
                     src={video.thumbnailUrl}
                     alt={video.title}
-                    class="w-full h-full object-cover"
+                    class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
                   />
                   <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-colors" />
                 </div>
@@ -82,11 +79,6 @@ function formatDuration(duration: string) {
                     {video.title}
                   </h3>
                   <time class="text-sm text-gray-500">
-                    {new Date(video.publishedAt).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
                   </time>
                 </div>
               </article>
@@ -107,4 +99,3 @@ function formatDuration(duration: string) {
 
   <Footer slot="footer" />
 </MainLayout>
-

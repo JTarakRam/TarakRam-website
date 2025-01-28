@@ -6,7 +6,12 @@ import EmailSignup from '../components/EmailSignup.astro';
 import Footer from '../components/Footer.astro';
 
 const blogs = await getCollection('blogs');
+
+// Sorting the blogs by publish date (latest first)
 blogs.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+
+// Default filteredBlogs set to all blogs initially
+let filteredBlogs = blogs;
 
 function formatDate(date: Date) {
   return new Date(date).toLocaleDateString('en-US', {
@@ -15,11 +20,20 @@ function formatDate(date: Date) {
     day: 'numeric',
   });
 }
+
+// Filtering function based on category
+function filterBlogsByCategory(category) {
+  if (category === 'All') {
+    filteredBlogs = blogs; // Show all blogs
+  } else {
+    filteredBlogs = blogs.filter(blog => blog.data.category === category);
+  }
+}
 ---
 
 <MainLayout title="Blogs">
   <Navigation slot="header" />
-  
+
   <main class="min-h-screen">
     <section class="bg-white py-24">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -27,7 +41,7 @@ function formatDate(date: Date) {
           <h1 class="text-5xl font-bold text-gray-900 mb-6">Blogs</h1>
           <p class="text-xl text-gray-600 mb-8">
             I like to share my thoughts about stuff like life, philosophy, business,
-            and other stuff I'm interested in. Hopefully you'll find some of it
+            and other stuff I'm interested in. Hopefully, you'll find some of it
             interesting too.
           </p>
           <div class="w-16 h-1 bg-blue-600 rounded mx-auto"></div>
@@ -35,11 +49,50 @@ function formatDate(date: Date) {
       </div>
     </section>
 
+    <!-- Filter Section with Category Buttons -->
+    <section class="bg-gray-100 py-8">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="space-x-4 mb-8">
+          <button
+            class="inline-flex items-center px-6 py-3 bg-gray-50 text-black rounded hover:bg-opacity-90 transition-colors"
+            onClick={() => filterBlogsByCategory('All')}
+          >
+            All
+          </button>
+          <button
+            class="inline-flex items-center px-6 py-3  bg-gray-50 text-black rounded hover:bg-opacity-90 transition-colors"
+            onClick={() => filterBlogsByCategory('Books')}
+          >
+            Books
+          </button>
+          <button
+            class="inline-flex items-center px-6 py-3 bg-gray-50 text-black rounded hover:bg-opacity-90 transition-colors"
+            onClick={() => filterBlogsByCategory('Personal')}
+          >
+            Personal
+          </button>
+          <button
+            class="inline-flex items-center px-6 py-3 bg-gray-50 text-black rounded hover:bg-opacity-90 transition-colors"
+            onClick={() => filterBlogsByCategory('Learnings')}
+          >
+            Learnings
+          </button>
+          <button
+            class="inline-flex items-center px-6 py-3 bg-gray-50 text-black rounded hover:bg-opacity-90 transition-colors"
+            onClick={() => filterBlogsByCategory('Interesting')}
+          >
+            Interesting
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Displaying Filtered Blogs -->
     <div class="py-16 bg-gray-50">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="text-2xl font-semibold text-gray-900 mb-8 text-center">All posts by date</h2>
         <div class="space-y-8">
-          {blogs.map(blog => (
+          {filteredBlogs.map(blog => (
             <article class="bg-white rounded-xl shadow-sm p-6">
               <h3 class="text-xl font-semibold mb-4">
                 <a href={`/blogs/${blog.slug}`} class="text-gray-900 hover:text-blue-600 transition-colors">
@@ -48,10 +101,7 @@ function formatDate(date: Date) {
               </h3>
               <div class="flex flex-wrap gap-4 text-sm text-gray-600 mb-4">
                 <span>Published: {formatDate(blog.data.publishDate)}</span>
-                <span>Category: <span class="text-blue-600">{blog.data.category}</span></span>
-                <span>Written By: {blog.data.author}</span>
               </div>
-              <p class="text-gray-600">{blog.data.excerpt}</p>
             </article>
           ))}
         </div>
@@ -59,12 +109,5 @@ function formatDate(date: Date) {
     </div>
   </main>
 
-  <div class="bg-gray-100 py-16">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <EmailSignup />
-    </div>
-  </div>
-
   <Footer slot="footer" />
 </MainLayout>
-

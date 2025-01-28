@@ -37,22 +37,21 @@ const years = ['ALL EMAILS', ...uniqueYears];
           
           <div class="space-y-4 text-gray-600 text-lg md:text-xl">
             <p>
-              Monday Mornings is a weekly email where I share notes from books I've read,
-              podcasts I've listened to and experiences I've had along my journey of
-              business and life.
+              <strong>Monday Mornings</strong> is my weekly email where I share the most valuable insights from the books I read, the podcasts I tune into, and the real-life experiences.
             </p>
             
             <p>
-              It's a real-time way of hearing about the best of what I'm learning, as I learn it.
+              Think of it as a front-row seat to the best of what I'm learning—delivered to you in real time as I discover it.
             </p>
             
             <p>
-              It's 100% free, always will be, and you can unsubscribe anytime.
+              And the best part? It's 100% free—always will be. Plus, you can unsubscribe anytime if it's not for you.
             </p>
             
             <p class="font-medium">
-              Join now!
+              Don't miss out. <strong>Join now!</strong>
             </p>
+            
           </div>
         </div>
       </div>
@@ -68,7 +67,8 @@ const years = ['ALL EMAILS', ...uniqueYears];
               <button
                 type="button"
                 class:list={[
-                  'px-6 py-2 rounded-full border-2 transition-all duration-200 font-medium',
+                  'px-6 py-2 rounded-lg border-2 transition-all duration-200 font-medium',  
+                
                   'hover:border-blue-500 hover:text-blue-500',
                   year === 'ALL EMAILS' ? 'border-blue-500 text-blue-500 bg-white' : 'border-gray-300 text-gray-700 bg-white'
                 ]}
@@ -85,7 +85,7 @@ const years = ['ALL EMAILS', ...uniqueYears];
               Read past emails of Monday Mornings
             </h2>
             
-            <div class="space-y-6 bg-white rounded-xl p-6 md:p-8 shadow-sm">
+            <div class="space-y-6 bg-white rounded-lg p-6 md:p-8 shadow-sm"> <!-- Reduced roundness -->
               {newsletters.map(newsletter => {
                 const year = new Date(newsletter.data.publishDate).getFullYear().toString();
                 return (
@@ -140,7 +140,12 @@ const years = ['ALL EMAILS', ...uniqueYears];
   .newsletter-item {
     opacity: 1;
     transform: translateY(0);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .newsletter-item:hover {
+    transform: translateY(-10px); /* Add slight upward movement */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
   }
 
   .newsletter-item.hidden {

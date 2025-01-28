@@ -1,7 +1,7 @@
 ---
 title: "Our First Email this year in 2025!"
 author: "Tarak Ram"
-publishDate: 2025-11-26
+publishDate: 2024-11-26
 description: "Sharing key lessons and insights from this week."
 category: "Newsletter"
 excerpt: "Welcome to Monday Mornings! This is our first newsletter where I share what I’ve learned about life, business, and personal growth this week."

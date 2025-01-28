@@ -7,46 +7,30 @@
         <a href="/podcast">Podcaster</a>.
       </p>
       <p class="offer">
-        I love reading Books and talking with people. Every week I share my learnings from my Real life, The books that I
+        I love reading Books and talking with people. Every week I share my learnings from my Real life, the books that I
         read, and the lessons that I’ve learned from people straight to your inbox for free.
       </p>
       
       <div class="signup-container">
-        <h2 class="signup-title">Subscribe My Newsletter</h2>
+        <h2 class="signup-title">Subscribe to My Newsletter</h2>
         <p class="signup-text">
-          Get Every week my learnings from my personal life, from the Books the I read, people I met, directly to your inbox.
+          Get my weekly learnings from my personal life, books I read, and people I meet—delivered directly to your inbox.
         </p>
         
-        <form class="signup-form" action="/api/subscribe" method="POST">
-          <div class="form-group">
-            <input 
-              type="text" 
-              placeholder="First Name" 
-              required 
-              class="input"
-            />
-          </div>
-          
+        <form 
+          class="signup-form" 
+          action="https://tarakram.beehiiv.com/subscribe" 
+          method="GET"
+          target="_blank"
+        >
           <div class="form-group">
             <input 
               type="email" 
               placeholder="Email*" 
+              name="email" 
               required 
               class="input"
             />
-          </div>
-          
-          <div class="checkbox-group">
-            <label class="checkbox-label">
-              <input 
-                type="checkbox" 
-                name="newsletter" 
-                class="checkbox-input"
-              />
-              <span class="checkbox-text">
-                I'd like to receive weekly insights and updates in my inbox.
-              </span>
-            </label>
           </div>
           
           <div class="form-footer">
@@ -167,35 +151,12 @@
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
   }
 
-  .checkbox-group {
-    margin: 0.5rem 0;
-  }
-
-  .checkbox-label {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-    cursor: pointer;
-  }
-
-  .checkbox-input {
-    margin-top: 0.25rem;
-  }
-
-  .checkbox-text {
-    font-size: 0.875rem;
-    color: #4B5563;
-  }
-
   .form-footer {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+    justify-content: center;
   }
 
   .download-button {
-    width: 100%;
     padding: 0.75rem 1.5rem;
     background-color: #3B82F6;
     color: white;
@@ -209,21 +170,6 @@
 
   .download-button:hover {
     background-color: #2563EB;
-  }
-
-  .privacy-notice {
-    font-size: 0.75rem;
-    color: #6B7280;
-    text-align: center;
-  }
-
-  .privacy-link {
-    color: #3B82F6;
-    text-decoration: none;
-  }
-
-  .privacy-link:hover {
-    text-decoration: underline;
   }
 
   .hero-image {
@@ -244,19 +190,6 @@
       grid-template-columns: 1fr 1fr;
       align-items: center;
       gap: 4rem;
-    }
-
-    .form-footer {
-      flex-direction: row;
-      justify-content: space-between;
-    }
-
-    .download-button {
-      width: auto;
-    }
-
-    .privacy-notice {
-      text-align: right;
     }
   }
 
