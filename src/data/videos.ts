@@ -7,6 +7,28 @@ export interface Video {
 
 export const videos: Video[] = [
   {
+    id: "frNdDV44NUM",
+    title:
+      "He is Building an AI Avatar on Autopilot | Yash Gawde",
+    description: "Yash Gawde, an entrepreneur and visionary who has made significant strides in the tech and NFT spaces. Yash has Founded Elite NFT, That’s A 10, and now leads BeHooked, an AI-powered content automation platform.",
+    thumbnailUrl: "/images/24.jpg",
+  },
+  {
+    id: "moPcATRBg0o",
+    title:
+      "Everything about Aerospace & Quantum Physics - Aaryan J Bora | Citizen Scientist @NASA",
+    description: "Aaaryan J Bora, a citizen scientist who has worked with NASA on multiple projects and is passionate about aerospace exploration and quantum physics. ",
+    thumbnailUrl: "/images/23.jpg",
+  },
+  {
+    id: "5EqBFfakgiM",
+    title:
+      "Lessons from 40 Years of Entrepreneurship with 2 Exits | David Wagstaff",
+    description: "David has built and exited two successful businesses and is now the Chief Dream Maker at Eprenz, a global community of over 120,000 entrepreneurs.",
+    thumbnailUrl: "/images/22.jpg",
+  },
+
+  {
     id: "REjIo4irx-M",
     title:
       "Jon Jandai: Life is Easy – So Why Do We Make It Hard? | Simple Living Explained",
