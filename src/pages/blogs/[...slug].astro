@@ -6,15 +6,18 @@ import EmailSignup from '../../components/EmailSignup.astro';
 import Footer from '../../components/Footer.astro';
 
 export async function getStaticPaths() {
+  // Get all blog posts from the collection
   const blogs = await getCollection('blogs');
+  
+  // Generate static paths for each blog post
   return blogs.map(blog => ({
-    params: { slug: blog.slug },
-    props: { blog },
+    params: { slug: blog.slug }, // The dynamic part of the URL (slug)
+    props: { blog },  // Pass blog data to the page
   }));
 }
 
-const { blog } = Astro.props;
-const { Content } = await blog.render();
+const { blog } = Astro.props; // Get the current blog from props
+const { Content } = await blog.render(); // Render blog content
 
 function formatDate(date: Date) {
   return new Date(date).toLocaleDateString('en-US', {
@@ -23,38 +26,77 @@ function formatDate(date: Date) {
     day: 'numeric',
   });
 }
----
 
+const allBlogs = await getCollection('blogs');
+const relatedBlogs = allBlogs.filter(b => b.slug !== blog.slug).slice(0, 3);
+---
 
 <MainLayout title={blog.data.title}>
   <Navigation slot="header" />
-  
-  <main class="blog-page bg-gray-50">
+
+  <main class="blog-page">
     <!-- Blog Content Section -->
-    <div class="container mx-auto px-4 py-12">
-      <article class="bg-white rounded-lg shadow-lg overflow-hidden max-w-3xl mx-auto">
-        <header class="mb-6 p-8 bg-blue-200 text-black">
-          <h1 class="text-4xl font-semibold mb-2">{blog.data.title}</h1>
-          <div class="flex items-center mt-2">
-            <div>
-              <p class="font-medium">{blog.data.author}</p>
-              <p class="text-sm">{formatDate(blog.data.publishDate)}</p>
-            </div>
+    <section class="bg-white shadow-lg rounded-lg overflow-hidden mt-12 mx-auto max-w-4xl">
+      <header class="relative">
+        <div class="bg-gradient-to-b from-blue-500 to-blue-700 text-white p-8 text-center">
+          <h1 class="text-5xl font-bold mb-4">{blog.data.title}</h1>
+          <div class="mt-2 flex flex-col sm:flex-row sm:justify-center items-center gap-4">
+            <p class="font-medium text-lg">By {blog.data.author}</p>
+            <span class="text-gray-200 font-light text-sm">{formatDate(blog.data.publishDate)}</span>
           </div>
-        </header>
-        <div class="p-8 prose lg:prose-xl max-w-none text-gray-800">
-          <Content />
         </div>
+        {blog.data.image && (
+          <img
+            src={blog.data.image}
+            alt={blog.data.title}
+            class="w-full object-cover h-72 sm:h-96"
+          />
+        )}
+      </header>
+
+      <article class="prose lg:prose-xl p-8 text-gray-800 max-w-none mx-auto">
+        <Content />
       </article>
-    </div>
+    </section>
+
+    <!-- Related Blogs Section -->
+    {relatedBlogs.length > 0 && (
+      <section class="bg-gray-50 py-16">
+        <div class="container mx-auto px-4">
+          <h2 class="text-3xl font-bold text-center text-gray-800 mb-10">
+            You May Also Like
+          </h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {relatedBlogs.map(related => (
+              <div
+                class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                key={related.slug}
+              >
+                <a href={`/blogs/${related.slug}`} class="block">
+                  {related.data.image && (
+                    <img
+                      src={related.data.image}
+                      alt={related.data.title}
+                      class="w-full object-cover h-48"
+                    />
+                  )}
+                  <div class="p-4">
+                    <h3 class="font-bold text-lg mb-2 text-gray-800 hover:text-blue-600 transition-colors">
+                      {related.data.title}
+                    </h3>
+                    <p class="text-sm text-gray-600">{related.data.excerpt}</p>
+                  </div>
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
 
     <!-- Email Signup Section -->
-    <div class="bg-gradient-to-r from-blue-300 to-white py-16 text-white">
-      <div class="container mx-auto px-4">
-        <div class="max-w-3xl mx-auto">
-          <EmailSignup />
-        </div>
-      </div>
+    <div class="mt-16">
+      <EmailSignup />
     </div>
   </main>
 
@@ -62,62 +104,64 @@ function formatDate(date: Date) {
 </MainLayout>
 
 <style>
-  /* General Page Styling */
   .blog-page {
-    background-color: #f7fafc;
-    font-family: 'Inter', sans-serif; /* Modern font like Inter */
+    background-color: #f9fafb;
+    font-family: 'Inter', sans-serif;
+    padding-top: 2rem;
   }
 
-  /* Styling for the blog content */
+  /* Typography for Blog Content */
   .prose {
-    max-width: 65ch;
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 1.125rem; /* Larger text size */
-    line-height: 1.8; /* Increased line height for better readability */
+    font-size: 1.125rem;
+    line-height: 1.8;
+    margin-top: 1.5rem;
   }
 
-  /* Ensure images have rounded corners */
+  .prose h1,
+  .prose h2,
+  .prose h3 {
+    color: #1e3a8a;
+  }
+
+  .prose ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .prose ol {
+    list-style: decimal;
+    padding-left: 1.5rem;
+    margin-top: 1rem;
+  }
+
   .prose img {
-    border-radius: 0.5rem;
+    border-radius: 0.75rem;
+    margin-top: 1rem;
   }
 
-  /* Styling for the blog header */
-  header h1 {
-    font-size: 3rem; /* Increased heading size */
-    font-weight: bold;
-    color: #333;
+  /* Header Gradient Background */
+  .bg-gradient-to-b {
+    background: linear-gradient(to bottom, #3b82f6, #2563eb);
   }
 
-  /* Image Section Styling */
-  .blog-page img {
-    border-radius: 1rem;
+  /* Related Blogs Section */
+  .related-blogs a:hover h3 {
+    color: #2563eb;
   }
 
-  /* Styling for the email signup section */
-  .bg-gradient-to-r {
-    background: linear-gradient(to right, #8ec5fc, #dae1eb); /* Subtle gradient background */
+  .related-blogs img {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
   }
 
-  /* Adjust padding for mobile */
-  @media (max-width: 768px) {
-    .container {
-      padding-left: 1rem;
-      padding-right: 1rem;
+  @media (max-width: 640px) {
+    .blog-page {
+      padding: 1rem;
     }
-  }
 
-  /* Make the buttons more prominent */
-  .email-signup button {
-    font-size: 1.1rem;
-    padding: 1rem 2rem;
-    border-radius: 9999px;
-    background-color: #1e40af; /* Blue button */
-    color: white;
-    transition: background-color 0.3s;
-  }
-
-  .email-signup button:hover {
-    background-color: #3b82f6;
+    .prose {
+      font-size: 1rem;
+    }
   }
 </style>

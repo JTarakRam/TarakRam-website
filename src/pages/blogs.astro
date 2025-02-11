@@ -6,12 +6,7 @@ import EmailSignup from '../components/EmailSignup.astro';
 import Footer from '../components/Footer.astro';
 
 const blogs = await getCollection('blogs');
-
-// Sorting the blogs by publish date (latest first)
 blogs.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
-
-// Default filteredBlogs set to all blogs initially
-let filteredBlogs = blogs;
 
 function formatDate(date: Date) {
   return new Date(date).toLocaleDateString('en-US', {
@@ -21,93 +16,115 @@ function formatDate(date: Date) {
   });
 }
 
-// Filtering function based on category
-function filterBlogsByCategory(category) {
-  if (category === 'All') {
-    filteredBlogs = blogs; // Show all blogs
-  } else {
-    filteredBlogs = blogs.filter(blog => blog.data.category === category);
-  }
-}
+const ITEMS_PER_PAGE = 8; // Number of blogs per page
 ---
-
 <MainLayout title="Blogs">
   <Navigation slot="header" />
 
   <main class="min-h-screen">
-    <section class="bg-white py-24">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="bg-gradient-to-b from-gray-100 to-white py-16">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center">
-          <h1 class="text-5xl font-bold text-gray-900 mb-6">Blogs</h1>
-          <p class="text-xl text-gray-600 mb-8">
-            I like to share my thoughts about stuff like life, philosophy, business,
-            and other stuff I'm interested in. Hopefully, you'll find some of it
-            interesting too.
+          <h1 class="text-5xl font-extrabold text-gray-800 tracking-tight mb-4">Latest Blogs</h1>
+          <p class="text-lg text-gray-600">
+            Explore my thoughts and experiences on topics like philosophy, business, and life. Find something new and interesting every time you visit.
           </p>
-          <div class="w-16 h-1 bg-blue-600 rounded mx-auto"></div>
+          <div class="w-20 h-1 bg-blue-600 rounded mx-auto mt-6"></div>
         </div>
       </div>
     </section>
 
-    <!-- Filter Section with Category Buttons -->
-    <section class="bg-gray-100 py-8">
-      <div class="max-w-4xl mx-auto text-center">
-        <div class="space-x-4 mb-8">
-          <button
-            class="inline-flex items-center px-6 py-3 bg-gray-50 text-black rounded hover:bg-opacity-90 transition-colors"
-            onClick={() => filterBlogsByCategory('All')}
-          >
-            All
-          </button>
-          <button
-            class="inline-flex items-center px-6 py-3  bg-gray-50 text-black rounded hover:bg-opacity-90 transition-colors"
-            onClick={() => filterBlogsByCategory('Books')}
-          >
-            Books
-          </button>
-          <button
-            class="inline-flex items-center px-6 py-3 bg-gray-50 text-black rounded hover:bg-opacity-90 transition-colors"
-            onClick={() => filterBlogsByCategory('Personal')}
-          >
-            Personal
-          </button>
-          <button
-            class="inline-flex items-center px-6 py-3 bg-gray-50 text-black rounded hover:bg-opacity-90 transition-colors"
-            onClick={() => filterBlogsByCategory('Learnings')}
-          >
-            Learnings
-          </button>
-          <button
-            class="inline-flex items-center px-6 py-3 bg-gray-50 text-black rounded hover:bg-opacity-90 transition-colors"
-            onClick={() => filterBlogsByCategory('Interesting')}
-          >
-            Interesting
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Displaying Filtered Blogs -->
-    <div class="py-16 bg-gray-50">
-      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-2xl font-semibold text-gray-900 mb-8 text-center">All posts by date</h2>
-        <div class="space-y-8">
-          {filteredBlogs.map(blog => (
-            <article class="bg-white rounded-xl shadow-sm p-6">
-              <h3 class="text-xl font-semibold mb-4">
-                <a href={`/blogs/${blog.slug}`} class="text-gray-900 hover:text-blue-600 transition-colors">
-                  {blog.data.title}
+    <!-- Blogs Section -->
+    <section class="py-16 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div id="blog-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {blogs.slice(0, ITEMS_PER_PAGE).map((blog) => (
+            <article
+              class="bg-white rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl hover:bg-gray-50 p-6"
+            >
+              <h3 class="text-2xl font-bold mb-2">
+                <a
+                  href={`/blogs/${blog.slug}`}
+                  class="text-gray-900 hover:text-blue-600 transition-colors"
+                >
+                  {blog.data.title || 'Untitled Blog'}
                 </a>
               </h3>
-              <div class="flex flex-wrap gap-4 text-sm text-gray-600 mb-4">
-                <span>Published: {formatDate(blog.data.publishDate)}</span>
+              <div class="text-sm text-gray-600 mb-4">
+                Published: {formatDate(blog.data.publishDate)}
               </div>
+              <p class="text-gray-700 text-base">
+                {blog.data.excerpt || 'No excerpt available for this blog.'}
+              </p>
             </article>
           ))}
         </div>
+
+        {ITEMS_PER_PAGE < blogs.length && (
+          <div class="text-center mt-8">
+            <button
+              id="load-more"
+              class="px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition-all"
+              onclick="loadNextPage()"
+            >
+              Next Page
+            </button>
+          </div>
+        )}
       </div>
-    </div>
+    </section>
+
+    <section class="newsletter-signup py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <EmailSignup />
+      </div>
+    </section>
   </main>
 
   <Footer slot="footer" />
 </MainLayout>
+
+<script>
+  let currentPage = 1;
+  const ITEMS_PER_PAGE = 8;
+
+  function loadNextPage() {
+    currentPage++;
+    const container = document.getElementById('blog-container');
+    const loadMoreButton = document.getElementById('load-more');
+
+    // Dynamically fetch the next set of blogs
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    const end = currentPage * ITEMS_PER_PAGE;
+    const nextBlogs = JSON.parse('${JSON.stringify(blogs)}').slice(start, end);
+
+    nextBlogs.forEach((blog) => {
+      const blogElement = document.createElement('article');
+      blogElement.className =
+        'bg-white rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl hover:bg-gray-50 p-6';
+      blogElement.innerHTML = `
+        <h3 class="text-2xl font-bold mb-2">
+          <a href="/blogs/${blog.slug}" class="text-gray-900 hover:text-blue-600 transition-colors">
+            ${blog.data.title || 'Untitled Blog'}
+          </a>
+        </h3>
+        <div class="text-sm text-gray-600 mb-4">
+          Published: ${new Date(blog.data.publishDate).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}
+        </div>
+        <p class="text-gray-700 text-base">
+          ${blog.data.excerpt || 'No excerpt available for this blog.'}
+        </p>
+      `;
+      container.appendChild(blogElement);
+    });
+
+    // Hide the "Next Page" button if no more blogs
+    if (currentPage * ITEMS_PER_PAGE >= JSON.parse('${JSON.stringify(blogs)}').length) {
+      loadMoreButton.style.display = 'none';
+    }
+  }
+</script>

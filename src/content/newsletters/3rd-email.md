@@ -1,10 +1,10 @@
 ---
-title: "Our First Email"
+title: "Over the past 72 hours, I only slept about 10 hours combined."
 author: "Tarak Ram"
-publishDate: 2025-01-26
+publishDate: 2024-05-27
 description: "Sharing key lessons and insights from this week."
 category: "Newsletter"
-excerpt: "Welcome to Monday Mornings! This is our first newsletter where I share what I’ve learned about life, business, and personal growth this week."
+excerpt: "Welcome to Monday Mornings!, where I share what I’ve learned about life, business, and personal growth this week."
 ---
 
 ## **Our First Email**
